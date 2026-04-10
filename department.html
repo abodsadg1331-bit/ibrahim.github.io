@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قسم تقنيات الحاسوب — جامعة الإمام جعفر الصادق (ع)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ======================================================
+   VARIABLES & RESET
+====================================================== */
+:root {
+  --bg:        #070d1a;
+  --bg2:       #0d1528;
+  --bg3:       #111e35;
+  --primary:   #1a3c5e;
+  --blue:      #1e6fd9;
+  --blue-glow: rgba(30,111,217,0.35);
+  --cyan:      #00d4ff;
+  --cyan-dim:  rgba(0,212,255,0.15);
+  --gold:      #c8a84b;
+  --gold-glow: rgba(200,168,75,0.3);
+  --green:     #00e676;
+  --green-dim: rgba(0,230,118,0.12);
+  --white:     #f0f4ff;
+  --muted:     #7a8ab0;
+  --border:    rgba(30,111,217,0.2);
+  --card-bg:   rgba(13,21,40,0.85);
+  --shadow:    0 8px 40px rgba(0,0,0,0.5);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Noto Kufi Arabic', sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ======================================================
+   ANIMATED GRID BACKGROUND
+====================================================== */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(30,111,217,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,111,217,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes gridMove {
+  0%   { background-position: 0 0; }
+  100% { background-position: 50px 50px; }
+}
+
+/* Floating particles */
+.particles { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: var(--cyan);
+  border-radius: 50%;
+  animation: float linear infinite;
+  opacity: 0;
+}
+@keyframes float {
+  0%   { transform: translateY(100vh) translateX(0); opacity:0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.3; }
+  100% { transform: translateY(-10vh) translateX(80px); opacity:0; }
+}
+
+/* ======================================================
+   TOP BAR
+====================================================== */
+.topbar {
+  position: relative; z-index: 100;
+  background: rgba(7,13,26,0.95);
+  border-bottom: 1px solid var(--border);
+  padding: 7px 0;
+  font-size: 12px;
+  color: var(--muted);
+  backdrop-filter: blur(10px);
+}
+.topbar .wrap { max-width:1200px; margin:0 auto; padding:0 24px; display:flex; justify-content:space-between; align-items:center; }
+.topbar a { color:var(--muted); text-decoration:none; margin-left:16px; transition:color .2s; }
+.topbar a:hover { color:var(--cyan); }
+.top-soc { display:flex; gap:8px; }
+.top-soc a {
+  width:24px; height:24px; border-radius:50%;
+  background:rgba(30,111,217,0.15); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; color:var(--muted);
+  transition:all .2s;
+}
+.top-soc a:hover { background:var(--blue); border-color:var(--blue); color:#fff; }
+
+/* ======================================================
+   HEADER / NAV
+====================================================== */
+header {
+  position: sticky; top:0; z-index: 99;
+  background: rgba(7,13,26,0.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+}
+.nav-inner {
+  max-width:1200px; margin:0 auto; padding:0 24px;
+  display:flex; align-items:center; justify-content:space-between;
+  height: 68px;
+}
+.brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
+.brand-logo {
+  width:48px; height:48px; border-radius:12px;
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px;
+  box-shadow: 0 0 20px var(--blue-glow);
+  flex-shrink:0;
+}
+.brand-text h1 { font-size:15px; font-weight:800; color:var(--white); line-height:1.2; }
+.brand-text p { font-size:11px; color:var(--cyan); font-weight:600; }
+nav ul { list-style:none; display:flex; gap:4px; }
+nav ul a {
+  text-decoration:none; color:var(--muted); font-size:13px;
+  padding:7px 14px; border-radius:8px; font-weight:600;
+  transition:all .2s;
+}
+nav ul a:hover, nav ul a.active {
+  color:var(--cyan); background:var(--cyan-dim);
+}
+.btn-back {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 7px 16px; border-radius: 20px;
+  font-family: 'Noto Kufi Arabic', sans-serif;
+  font-size:13px; font-weight:700; cursor:pointer;
+  transition:all .2s; text-decoration:none;
+  display:flex; align-items:center; gap:6px;
+}
+.btn-back:hover { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-dim); }
+
+/* ======================================================
+   HERO
+====================================================== */
+.hero {
+  position:relative; z-index:1;
+  min-height: 92vh;
+  display:flex; align-items:center; justify-content:center;
+  padding: 80px 24px 60px;
+  overflow:hidden;
+}
+/* Big glowing circle behind */
+.hero::after {
+  content:'';
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:700px; height:700px; border-radius:50%;
+  background: radial-gradient(circle, rgba(30,111,217,0.12) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-content {
+  position:relative; z-index:2;
+  text-align:center; max-width:780px;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background: rgba(30,111,217,0.15);
+  border: 1px solid rgba(30,111,217,0.4);
+  color:var(--cyan); font-size:13px; font-weight:700;
+  padding:6px 18px; border-radius:20px; margin-bottom:24px;
+  animation: fadeInDown .8s ease both;
+}
+.hero-badge .dot {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--cyan);
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.4)} }
+
+.hero-icon {
+  font-size:80px; margin-bottom:20px;
+  animation: fadeInDown .9s ease both .1s;
+  filter: drop-shadow(0 0 30px var(--blue-glow));
+}
+.hero h2 {
+  font-family:'Amiri',serif;
+  font-size:clamp(32px,6vw,62px);
+  font-weight:700; line-height:1.2;
+  color:var(--white); margin-bottom:8px;
+  animation: fadeInDown 1s ease both .2s;
+}
+.hero h2 span {
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  -webkit-background-clip: text; -webkit-text-fill-color:transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size:18px; color:var(--muted); margin-bottom:32px;
+  animation: fadeInDown 1s ease both .3s;
+}
+.hero-stats {
+  display:flex; justify-content:center; gap:40px; flex-wrap:wrap;
+  animation: fadeInDown 1s ease both .4s;
+}
+.h-stat { text-align:center; }
+.h-stat-num {
+  font-size:36px; font-weight:900; line-height:1;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.h-stat-label { font-size:12px; color:var(--muted); margin-top:4px; font-weight:600; }
+.hero-scroll {
+  position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  color:var(--muted); font-size:12px; animation:bounce 2s infinite;
+}
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+.scroll-arrow { font-size:20px; }
+
+/* Hero Circuit Lines */
+.circuit {
+  position:absolute; z-index:1; pointer-events:none;
+  opacity:0.15;
+}
+.circuit-right { right:40px; top:50%; transform:translateY(-50%); }
+.circuit-left  { left:40px;  top:50%; transform:translateY(-50%); }
+
+@keyframes fadeInDown {
+  from { opacity:0; transform:translateY(-20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ======================================================
+   SECTION COMMON
+====================================================== */
+.wrap { max-width:1200px; margin:0 auto; padding:0 24px; }
+section { position:relative; z-index:1; padding:80px 0; }
+
+.section-label {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:12px; font-weight:800; letter-spacing:2px;
+  text-transform:uppercase; color:var(--cyan);
+  margin-bottom:12px;
+}
+.section-label::before {
+  content:''; width:24px; height:2px; background:var(--cyan);
+}
+.section-title {
+  font-family:'Amiri',serif;
+  font-size:clamp(24px,4vw,40px); font-weight:700;
+  color:var(--white); margin-bottom:10px;
+}
+.section-desc { font-size:15px; color:var(--muted); max-width:560px; }
+
+/* ======================================================
+   ABOUT SECTION
+====================================================== */
+.about-section { background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%); }
+.about-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+  margin-top:50px;
+}
+.about-text p {
+  font-size:15px; color:var(--muted); line-height:1.9;
+  margin-bottom:16px;
+}
+.about-text p strong { color:var(--white); }
+.about-features { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:28px; }
+.feat-item {
+  display:flex; align-items:center; gap:10px;
+  background:var(--card-bg); border:1px solid var(--border);
+  border-radius:12px; padding:12px 16px;
+  font-size:13px; font-weight:700; color:var(--white);
+  transition:all .3s;
+}
+.feat-item:hover {
+  border-color:var(--cyan); background:var(--cyan-dim);
+  transform:translateX(-4px);
+}
+.feat-icon { font-size:20px; }
+
+/* About Visual */
+.about-visual { position:relative; }
+.terminal-window {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:14px; overflow:hidden;
+  box-shadow: var(--shadow), 0 0 60px var(--blue-glow);
+}
+.terminal-bar {
+  background:rgba(30,111,217,0.15); padding:12px 16px;
+  display:flex; align-items:center; gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.t-dot { width:12px; height:12px; border-radius:50%; }
+.t-dot.r { background:#ff5f57; } .t-dot.y { background:#febc2e; } .t-dot.g { background:#28c840; }
+.t-title { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); margin-right:auto; }
+.terminal-body { padding:24px; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:2; }
+.t-line { display:flex; gap:10px; align-items:flex-start; }
+.t-prompt { color:var(--cyan); flex-shrink:0; }
+.t-cmd { color:var(--white); }
+.t-out { color:var(--green); padding-right:24px; }
+.t-comment { color:var(--muted); }
+.cursor {
+  display:inline-block; width:8px; height:16px;
+  background:var(--cyan); vertical-align:middle;
+  animation:blink 1s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Floating badge */
+.float-badge {
+  position:absolute; bottom:-20px; right:-20px;
+  background:linear-gradient(135deg,var(--gold),#a07830);
+  color:var(--bg); padding:16px 20px; border-radius:14px;
+  text-align:center; box-shadow:0 8px 30px var(--gold-glow);
+  font-weight:800;
+}
+.float-badge strong { display:block; font-size:26px; line-height:1; }
+.float-badge span { font-size:11px; }
+
+/* ======================================================
+   DEPARTMENT HEAD
+====================================================== */
+.head-section {
+  background: var(--bg2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.head-card {
+  display:flex; align-items:center; gap:50px;
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:20px; padding:40px 48px;
+  position:relative; overflow:hidden;
+  margin-top:40px;
+}
+.head-card::before {
+  content:'';
+  position:absolute; top:0; right:0; bottom:0; width:4px;
+  background:linear-gradient(180deg, var(--cyan), var(--blue));
+}
+.head-card::after {
+  content:'';
+  position:absolute; top:-80px; right:-80px;
+  width:300px; height:300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(30,111,217,0.1) 0%, transparent 70%);
+}
+.head-avatar {
+  position:relative; flex-shrink:0;
+}
+.avatar-ring {
+  width:160px; height:160px; border-radius:50%;
+  border: 3px solid transparent;
+  background: linear-gradient(var(--bg2),var(--bg2)) padding-box,
+              linear-gradient(135deg,var(--cyan),var(--blue)) border-box;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 0 50px var(--blue-glow);
+  position:relative;
+}
+.avatar-inner {
+  width:140px; height:140px; border-radius:50%;
+  background:linear-gradient(135deg,var(--bg3),var(--primary));
+  display:flex; align-items:center; justify-content:center;
+  font-size:52px;
+}
+.head-badge {
+  position:absolute; bottom:-8px; left:50%; transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--gold),#a07830);
+  color:var(--bg); font-size:10px; font-weight:800;
+  padding:4px 12px; border-radius:10px; white-space:nowrap;
+  box-shadow:0 4px 12px var(--gold-glow);
+}
+.head-info { flex:1; }
+.head-role {
+  display:inline-block; font-size:11px; font-weight:800;
+  letter-spacing:2px; color:var(--cyan); text-transform:uppercase;
+  background:var(--cyan-dim); border:1px solid rgba(0,212,255,0.3);
+  padding:4px 14px; border-radius:10px; margin-bottom:12px;
+}
+.head-info h3 {
+  font-family:'Amiri',serif;
+  font-size:32px; font-weight:700; color:var(--white);
+  margin-bottom:6px;
+}
+.head-info .head-title { font-size:15px; color:var(--gold); font-weight:600; margin-bottom:14px; }
+.head-quote {
+  font-size:14px; color:var(--muted); line-height:1.8;
+  border-right:3px solid var(--blue); padding-right:16px;
+  margin-bottom:20px; font-style:italic;
+}
+.head-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.tag {
+  background:rgba(30,111,217,0.12); border:1px solid var(--border);
+  color:var(--muted); font-size:12px; font-weight:600;
+  padding:5px 12px; border-radius:8px;
+  transition:all .2s;
+}
+.tag:hover { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-dim); }
+
+/* ======================================================
+   PROFESSORS SECTION
+====================================================== */
+.profs-section { background:var(--bg); }
+.profs-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  gap:24px; margin-top:48px;
+}
+.prof-card {
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:18px; padding:32px 24px;
+  text-align:center;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  position:relative; overflow:hidden;
+  cursor:default;
+}
+.prof-card::before {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(30,111,217,0.06) 0%,transparent 60%);
+  opacity:0; transition:opacity .35s;
+}
+.prof-card:hover {
+  transform:translateY(-8px);
+  border-color:var(--cyan);
+  box-shadow:0 20px 60px rgba(0,212,255,0.12), 0 0 0 1px var(--cyan);
+}
+.prof-card:hover::before { opacity:1; }
+.prof-card:nth-child(2) { --c: var(--gold); }
+.prof-card:nth-child(3) { --c: var(--green); }
+.prof-card:nth-child(4) { --c: #ff7043; }
+
+.prof-avatar {
+  width:90px; height:90px; border-radius:50%;
+  margin:0 auto 18px;
+  background:linear-gradient(135deg,var(--bg3),var(--primary));
+  display:flex; align-items:center; justify-content:center;
+  font-size:36px; position:relative;
+  border: 2px solid var(--border);
+  transition:all .35s;
+}
+.prof-card:hover .prof-avatar {
+  border-color:var(--cyan);
+  box-shadow:0 0 30px var(--blue-glow);
+}
+.prof-online {
+  position:absolute; bottom:4px; left:4px;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--green);
+  border:2px solid var(--bg2);
+  box-shadow:0 0 8px var(--green);
+}
+.prof-name {
+  font-family:'Amiri',serif;
+  font-size:20px; font-weight:700; color:var(--white);
+  margin-bottom:6px;
+}
+.prof-specialty {
+  font-size:12px; color:var(--cyan); font-weight:700;
+  background:var(--cyan-dim); border:1px solid rgba(0,212,255,0.2);
+  padding:4px 12px; border-radius:8px; display:inline-block;
+  margin-bottom:16px;
+}
+.prof-stats {
+  display:flex; justify-content:center; gap:20px;
+  border-top:1px solid var(--border); padding-top:16px;
+}
+.ps-item { text-align:center; }
+.ps-num { font-size:18px; font-weight:800; color:var(--white); }
+.ps-label { font-size:10px; color:var(--muted); }
+.prof-socials {
+  display:flex; justify-content:center; gap:8px; margin-top:14px;
+}
+.prof-social-btn {
+  width:32px; height:32px; border-radius:8px;
+  background:rgba(30,111,217,0.12); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; cursor:pointer; transition:all .2s;
+  color:var(--muted);
+}
+.prof-social-btn:hover {
+  background:var(--blue); border-color:var(--blue); color:#fff;
+}
+
+/* ======================================================
+   STUDENTS SECTION
+====================================================== */
+.students-section {
+  background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%);
+  border-top:1px solid var(--border);
+}
+.students-header {
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap:20px; flex-wrap:wrap; margin-bottom:48px;
+}
+.search-box {
+  display:flex; align-items:center; gap:10px;
+  background:var(--card-bg); border:1px solid var(--border);
+  border-radius:12px; padding:10px 16px;
+  transition:border-color .2s;
+}
+.search-box:focus-within { border-color:var(--cyan); }
+.search-box input {
+  background:none; border:none; outline:none;
+  color:var(--white); font-family:'Noto Kufi Arabic',sans-serif;
+  font-size:14px; width:200px;
+}
+.search-box input::placeholder { color:var(--muted); }
+.search-icon { font-size:16px; color:var(--muted); }
+
+.students-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  gap:20px;
+}
+.student-card {
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:16px; padding:24px 18px;
+  text-align:center;
+  transition:all .3s;
+  position:relative; overflow:hidden;
+}
+.student-card::after {
+  content:'';
+  position:absolute; bottom:0; right:0; left:0; height:3px;
+  background:linear-gradient(90deg, var(--blue), var(--cyan));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .3s;
+}
+.student-card:hover {
+  transform:translateY(-6px);
+  border-color:rgba(0,212,255,0.4);
+  box-shadow:0 16px 40px rgba(0,0,0,0.4);
+}
+.student-card:hover::after { transform:scaleX(1); }
+.student-rank {
+  position:absolute; top:12px; right:12px;
+  width:26px; height:26px; border-radius:8px;
+  background:rgba(30,111,217,0.2); border:1px solid var(--border);
+  font-size:11px; font-weight:800; color:var(--muted);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace;
+}
+.student-avatar {
+  width:72px; height:72px; border-radius:50%;
+  margin:0 auto 14px;
+  background:linear-gradient(135deg,var(--bg3),var(--bg2));
+  display:flex; align-items:center; justify-content:center;
+  font-size:28px; border:2px solid var(--border);
+  transition:all .3s; position:relative;
+}
+.student-card:hover .student-avatar {
+  border-color:var(--cyan);
+  box-shadow:0 0 20px var(--blue-glow);
+}
+.student-active {
+  position:absolute; bottom:2px; left:2px;
+  width:12px; height:12px; border-radius:50%;
+  border:2px solid var(--bg2);
+}
+.student-active.online  { background:var(--green); box-shadow:0 0 6px var(--green); }
+.student-active.offline { background:var(--muted); }
+
+.student-name {
+  font-size:15px; font-weight:800; color:var(--white);
+  margin-bottom:4px;
+}
+.student-id {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; color:var(--muted); margin-bottom:10px;
+}
+.student-badges { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; }
+.s-badge {
+  font-size:10px; font-weight:700; padding:3px 9px; border-radius:6px;
+}
+.s-badge.grad    { background:rgba(200,168,75,0.15); color:var(--gold); border:1px solid rgba(200,168,75,0.3); }
+.s-badge.active  { background:var(--green-dim); color:var(--green); border:1px solid rgba(0,230,118,0.3); }
+.s-badge.project { background:rgba(30,111,217,0.15); color:var(--cyan); border:1px solid rgba(0,212,255,0.3); }
+
+/* ======================================================
+   COURSES SECTION
+====================================================== */
+.courses-section { background:var(--bg); }
+.courses-tabs {
+  display:flex; gap:8px; margin:32px 0 24px; flex-wrap:wrap;
+}
+.tab-btn {
+  background:var(--card-bg); border:1px solid var(--border);
+  color:var(--muted); padding:8px 20px; border-radius:10px;
+  font-family:'Noto Kufi Arabic',sans-serif; font-size:13px;
+  font-weight:700; cursor:pointer; transition:all .2s;
+}
+.tab-btn:hover, .tab-btn.active {
+  background:var(--cyan-dim); border-color:var(--cyan); color:var(--cyan);
+}
+.courses-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+  gap:18px;
+}
+.course-card {
+  background:var(--card-bg); border:1px solid var(--border);
+  border-radius:14px; padding:22px;
+  display:flex; gap:16px; align-items:flex-start;
+  transition:all .3s;
+}
+.course-card:hover {
+  border-color:var(--blue);
+  transform:translateX(-4px);
+}
+.course-icon-box {
+  width:48px; height:48px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; flex-shrink:0;
+}
+.bg-blue  { background:rgba(30,111,217,0.15); border:1px solid rgba(30,111,217,0.3); }
+.bg-cyan  { background:var(--cyan-dim); border:1px solid rgba(0,212,255,0.2); }
+.bg-gold  { background:rgba(200,168,75,0.12); border:1px solid rgba(200,168,75,0.2); }
+.bg-green { background:var(--green-dim); border:1px solid rgba(0,230,118,0.2); }
+.bg-red   { background:rgba(255,112,67,0.1); border:1px solid rgba(255,112,67,0.2); }
+
+.course-info h4 { font-size:14px; font-weight:800; color:var(--white); margin-bottom:4px; }
+.course-info p  { font-size:12px; color:var(--muted); line-height:1.6; }
+.course-meta {
+  display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;
+}
+.c-tag {
+  font-size:10px; font-weight:700; padding:2px 8px; border-radius:6px;
+  background:rgba(30,111,217,0.12); color:var(--cyan);
+  border:1px solid var(--border);
+}
+
+/* ======================================================
+   PROJECTS SECTION
+====================================================== */
+.projects-section {
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+}
+.projects-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:24px; margin-top:48px;
+}
+.project-card {
+  background:var(--card-bg); border:1px solid var(--border);
+  border-radius:18px; overflow:hidden;
+  transition:all .35s;
+}
+.project-card:hover {
+  transform:translateY(-6px);
+  border-color:var(--blue);
+  box-shadow:var(--shadow), 0 0 40px var(--blue-glow);
+}
+.project-cover {
+  height:160px; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  font-size:60px;
+}
+.project-cover::after {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(to bottom, transparent 40%, var(--card-bg));
+}
+.project-body { padding:22px; }
+.project-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+.p-tag {
+  font-size:10px; font-weight:800; padding:3px 10px; border-radius:6px;
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+.p-tag.web     { background:rgba(30,111,217,0.15); color:var(--cyan); }
+.p-tag.ai      { background:var(--green-dim); color:var(--green); }
+.p-tag.db      { background:rgba(200,168,75,0.12); color:var(--gold); }
+.p-tag.mobile  { background:rgba(255,112,67,0.12); color:#ff7043; }
+
+.project-body h4 { font-size:16px; font-weight:800; color:var(--white); margin-bottom:8px; }
+.project-body p  { font-size:13px; color:var(--muted); line-height:1.7; }
+.project-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 22px; border-top:1px solid var(--border);
+}
+.project-students { font-size:12px; color:var(--muted); }
+.project-link {
+  font-size:12px; font-weight:700; color:var(--cyan);
+  text-decoration:none; display:flex; align-items:center; gap:4px;
+  transition:gap .2s;
+}
+.project-link:hover { gap:8px; }
+
+/* ======================================================
+   FOOTER
+====================================================== */
+footer {
+  position:relative; z-index:1;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  padding:50px 0 20px;
+}
+.footer-grid {
+  display:grid; grid-template-columns:2fr 1fr 1fr; gap:50px;
+  padding-bottom:40px; border-bottom:1px solid var(--border);
+}
+.footer-brand p { font-size:13px; color:var(--muted); line-height:1.8; margin:14px 0 20px; }
+.footer-socials { display:flex; gap:10px; }
+.fsoc {
+  width:36px; height:36px; border-radius:10px;
+  background:rgba(30,111,217,0.12); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; text-decoration:none; color:var(--muted);
+  transition:all .2s;
+}
+.fsoc:hover { background:var(--blue); border-color:var(--blue); color:#fff; }
+.footer-col h4 {
+  font-size:13px; font-weight:800; color:var(--white);
+  letter-spacing:1px; text-transform:uppercase;
+  margin-bottom:16px; color:var(--cyan);
+}
+.footer-col ul { list-style:none; }
+.footer-col ul li { margin-bottom:10px; }
+.footer-col ul li a {
+  font-size:13px; color:var(--muted); text-decoration:none; transition:color .2s;
+  display:flex; align-items:center; gap:6px;
+}
+.footer-col ul li a::before { content:'▸'; color:var(--blue); font-size:10px; }
+.footer-col ul li a:hover { color:var(--cyan); }
+.footer-bottom {
+  padding-top:20px; text-align:center;
+  font-size:12px; color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+}
+.footer-bottom span { color:var(--cyan); }
+
+/* ======================================================
+   SCROLL ANIMATIONS
+====================================================== */
+.reveal {
+  opacity:0; transform:translateY(30px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-left  { opacity:0; transform:translateX(30px); transition:opacity .7s, transform .7s; }
+.reveal-left.visible { opacity:1; transform:translateX(0); }
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+@media(max-width:900px){
+  .about-grid, .head-card { flex-direction:column; grid-template-columns:1fr; }
+  .head-card { padding:28px; }
+  .footer-grid { grid-template-columns:1fr; gap:30px; }
+  nav ul { display:none; }
+  .hero h2 { font-size:30px; }
+  .hero-stats { gap:24px; }
+  .float-badge { bottom:-10px; right:10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <div>
+      <span>📞 07821777661</span>
+      <a href="mailto:info.dhiqar@sadiq.edu.iq">✉ info.dhiqar@sadiq.edu.iq</a>
+      <a href="#">🌐 www.dhiqar.sadiq.edu.iq</a>
+    </div>
+    <div class="top-soc">
+      <a href="https://www.facebook.com/share/1BVYZKMUDj/" target="_blank" rel="noopener" title="فيسبوك">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/alsadiq_thiqaruniversity?igsh=M3pqMGM3Ymh1Mjg0" target="_blank" rel="noopener" title="انستغرام">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-inner">
+    <a href="university-website.html" class="brand">
+      <div class="brand-logo">💻</div>
+      <div class="brand-text">
+        <h1>قسم تقنيات الحاسوب</h1>
+        <p>جامعة الإمام جعفر الصادق (ع) — فرع ذي قار</p>
+      </div>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#about" class="active">عن القسم</a></li>
+        <li><a href="#head">رئيس القسم</a></li>
+        <li><a href="#professors">الأساتذة</a></li>
+        <li><a href="#students">الطلبة</a></li>
+        <li><a href="#courses">المواد</a></li>
+        <li><a href="#projects">المشاريع</a></li>
+      </ul>
+    </nav>
+    <a href="university-website.html" class="btn-back">← الموقع الرئيسي</a>
+  </div>
+</header>
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+<section class="hero" id="home">
+
+  <!-- Circuit decoration -->
+  <svg class="circuit circuit-right" width="120" height="300" viewBox="0 0 120 300">
+    <path d="M60 0 L60 60 L100 60 L100 120 L20 120 L20 180 L80 180 L80 240 L60 240 L60 300"
+      fill="none" stroke="rgba(30,111,217,0.5)" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <circle cx="100" cy="60" r="4" fill="rgba(0,212,255,0.5)"/>
+    <circle cx="20" cy="120" r="4" fill="rgba(0,212,255,0.5)"/>
+    <circle cx="80" cy="180" r="4" fill="rgba(0,212,255,0.5)"/>
+    <circle cx="60" cy="240" r="4" fill="rgba(0,230,118,0.7)"/>
+  </svg>
+
+  <svg class="circuit circuit-left" width="120" height="300" viewBox="0 0 120 300">
+    <path d="M60 0 L60 60 L20 60 L20 120 L100 120 L100 180 L40 180 L40 240 L60 240 L60 300"
+      fill="none" stroke="rgba(30,111,217,0.5)" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <circle cx="20" cy="60" r="4" fill="rgba(0,212,255,0.5)"/>
+    <circle cx="100" cy="120" r="4" fill="rgba(0,212,255,0.5)"/>
+    <circle cx="40" cy="180" r="4" fill="rgba(0,212,255,0.5)"/>
+    <circle cx="60" cy="240" r="4" fill="rgba(200,168,75,0.7)"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      قسم نشط — العام الدراسي 2024/2025
+    </div>
+    <div class="hero-icon">🖥️</div>
+    <h2>قسم <span>تقنيات الحاسوب</span></h2>
+    <p class="hero-sub">نبني مبرمجي ومهندسي المستقبل — نصنع التقنية من قلب ذي قار</p>
+    <div class="hero-stats">
+      <div class="h-stat">
+        <div class="h-stat-num" data-target="6">0</div>
+        <div class="h-stat-label">طلبة التخرج</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-num" data-target="4">0</div>
+        <div class="h-stat-label">أساتذة متخصصون</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-num" data-target="24">0</div>
+        <div class="h-stat-label">مادة دراسية</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-num" data-target="3">0</div>
+        <div class="h-stat-label">مختبرات</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-arrow">↓</div>
+    <span>استكشف القسم</span>
+  </div>
+</section>
+
+<!-- ======================================================
+     ABOUT
+====================================================== -->
+<section class="about-section" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+
+      <div class="about-text reveal">
+        <div class="section-label">نبذة عن القسم</div>
+        <h2 class="section-title">نحن نبني المستقبل الرقمي</h2>
+        <p>
+          قسم تقنيات الحاسوب في جامعة الإمام جعفر الصادق (ع) فرع ذي قار هو أحد أبرز الأقسام التقنية في المنطقة،
+          يُهيّئ الطلبة لمواجهة تحديات التحول الرقمي المتسارع بأساس علمي ومهاري متين.
+        </p>
+        <p>
+          يجمع القسم بين <strong>النظرية والتطبيق</strong> في برنامج دراسي متوازن يغطي:
+          البرمجة، الشبكات، قواعد البيانات، الذكاء الاصطناعي، وتطوير تطبيقات الويب والجوال.
+          يُشرف على تدريسه نخبة من الكوادر الأكاديمية المتخصصة.
+        </p>
+        <p>
+          يُتيح القسم للطلبة فرص تطبيق معارفهم عبر <strong>مشاريع التخرج الحقيقية</strong>،
+          ومن أبرز هذه المشاريع هذا الموقع الجامعي الذي طوّره الطالبان إبراهيم عماد صادق ومصطفى جبر حسين.
+        </p>
+        <div class="about-features">
+          <div class="feat-item"><span class="feat-icon">🧠</span>برمجة وخوارزميات</div>
+          <div class="feat-item"><span class="feat-icon">🌐</span>تطوير الويب</div>
+          <div class="feat-item"><span class="feat-icon">🔗</span>شبكات وأمن المعلومات</div>
+          <div class="feat-item"><span class="feat-icon">🗄️</span>قواعد البيانات</div>
+          <div class="feat-item"><span class="feat-icon">📱</span>تطبيقات الجوال</div>
+          <div class="feat-item"><span class="feat-icon">🤖</span>ذكاء اصطناعي</div>
+        </div>
+      </div>
+
+      <div class="about-visual reveal-left">
+        <div class="terminal-window">
+          <div class="terminal-bar">
+            <div class="t-dot r"></div>
+            <div class="t-dot y"></div>
+            <div class="t-dot g"></div>
+            <span class="t-title">cs_department.py — Python 3.11</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-line">
+              <span class="t-prompt">$</span>
+              <span class="t-cmd">python3 cs_department.py</span>
+            </div>
+            <div class="t-line" style="margin-top:8px">
+              <span class="t-out">✓ قسم تقنيات الحاسوب — ذي قار</span>
+            </div>
+            <div class="t-line">
+              <span class="t-out">✓ رئيس القسم: د. كاظم</span>
+            </div>
+            <div class="t-line">
+              <span class="t-out">✓ عدد الأساتذة: 4</span>
+            </div>
+            <div class="t-line">
+              <span class="t-out">✓ طلبة التخرج: 6</span>
+            </div>
+            <div class="t-line" style="margin-top:8px">
+              <span class="t-comment"># تحميل مشاريع التخرج...</span>
+            </div>
+            <div class="t-line">
+              <span class="t-out">✓ موقع الجامعة: مكتمل 100%</span>
+            </div>
+            <div class="t-line">
+              <span class="t-out">✓ بحث التخرج: عربي + إنكليزي</span>
+            </div>
+            <div class="t-line" style="margin-top:8px">
+              <span class="t-prompt">$</span>
+              <span class="t-cmd"> <span class="cursor"></span></span>
+            </div>
+          </div>
+        </div>
+        <div class="float-badge">
+          <strong>2025</strong>
+          <span>دفعة التخرج</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     DEPARTMENT HEAD
+====================================================== -->
+<section class="head-section" id="head">
+  <div class="wrap">
+    <div class="section-label">القيادة الأكاديمية</div>
+    <h2 class="section-title">رئيس القسم</h2>
+
+    <div class="head-card reveal">
+      <div class="head-avatar">
+        <div class="avatar-ring">
+          <div class="avatar-inner">👨‍💼</div>
+        </div>
+        <div class="head-badge">⭐ رئيس القسم</div>
+      </div>
+
+      <div class="head-info">
+        <div class="head-role">Department Head</div>
+        <h3>الدكتور كاظم</h3>
+        <div class="head-title">رئيس قسم تقنيات الحاسوب — أستاذ دكتور</div>
+        <p class="head-quote">
+          "نسعى في قسم تقنيات الحاسوب إلى تأهيل جيل من المهندسين والمبرمجين القادرين على قيادة
+          مسيرة التحول الرقمي في العراق، مسلّحين بالعلم والإبداع والقيم الأصيلة."
+        </p>
+        <div class="head-tags">
+          <span class="tag">هندسة البرمجيات</span>
+          <span class="tag">الذكاء الاصطناعي</span>
+          <span class="tag">قواعد البيانات</span>
+          <span class="tag">أنظمة التشغيل</span>
+          <span class="tag">إدارة المشاريع التقنية</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     PROFESSORS
+====================================================== -->
+<section class="profs-section" id="professors">
+  <div class="wrap">
+    <div class="section-label">الكادر التدريسي</div>
+    <h2 class="section-title">أساتذة القسم</h2>
+    <p class="section-desc">نخبة من الأكاديميين المتخصصين يجمعون بين العمق العلمي والخبرة التطبيقية</p>
+
+    <div class="profs-grid">
+
+      <!-- Prof 1 -->
+      <div class="prof-card reveal">
+        <div class="prof-avatar">
+          👨‍🏫
+          <div class="prof-online"></div>
+        </div>
+        <div class="prof-name">د. باسم عبود</div>
+        <div class="prof-specialty">تطوير الويب والبرمجيات</div>
+        <div class="prof-stats">
+          <div class="ps-item"><div class="ps-num">8+</div><div class="ps-label">سنوات خبرة</div></div>
+          <div class="ps-item"><div class="ps-num">12</div><div class="ps-label">بحث منشور</div></div>
+          <div class="ps-item"><div class="ps-num">120</div><div class="ps-label">طالب</div></div>
+        </div>
+        <div class="prof-socials">
+          <div class="prof-social-btn" title="HTML/CSS/JS">🌐</div>
+          <div class="prof-social-btn" title="PHP/MySQL">🗄️</div>
+          <div class="prof-social-btn" title="React">⚛️</div>
+        </div>
+      </div>
+
+      <!-- Prof 2 -->
+      <div class="prof-card reveal" style="transition-delay:.1s">
+        <div class="prof-avatar">
+          👨‍🔬
+          <div class="prof-online"></div>
+        </div>
+        <div class="prof-name">د. زياد خلف</div>
+        <div class="prof-specialty">هندسة البرمجيات والشبكات</div>
+        <div class="prof-stats">
+          <div class="ps-item"><div class="ps-num">10+</div><div class="ps-label">سنوات خبرة</div></div>
+          <div class="ps-item"><div class="ps-num">18</div><div class="ps-label">بحث منشور</div></div>
+          <div class="ps-item"><div class="ps-num">150</div><div class="ps-label">طالب</div></div>
+        </div>
+        <div class="prof-socials">
+          <div class="prof-social-btn" title="Software Engineering">🔧</div>
+          <div class="prof-social-btn" title="Networks">🔗</div>
+          <div class="prof-social-btn" title="Security">🔒</div>
+        </div>
+      </div>
+
+      <!-- Prof 3 -->
+      <div class="prof-card reveal" style="transition-delay:.2s">
+        <div class="prof-avatar">
+          👨‍💻
+          <div class="prof-online"></div>
+        </div>
+        <div class="prof-name">د. مهند رزاق</div>
+        <div class="prof-specialty">الذكاء الاصطناعي وتعلم الآلة</div>
+        <div class="prof-stats">
+          <div class="ps-item"><div class="ps-num">7+</div><div class="ps-label">سنوات خبرة</div></div>
+          <div class="ps-item"><div class="ps-num">14</div><div class="ps-label">بحث منشور</div></div>
+          <div class="ps-item"><div class="ps-num">100</div><div class="ps-label">طالب</div></div>
+        </div>
+        <div class="prof-socials">
+          <div class="prof-social-btn" title="Python/AI">🤖</div>
+          <div class="prof-social-btn" title="Machine Learning">🧠</div>
+          <div class="prof-social-btn" title="Data Science">📊</div>
+        </div>
+      </div>
+
+      <!-- Prof 4 -->
+      <div class="prof-card reveal" style="transition-delay:.3s">
+        <div class="prof-avatar">
+          👨‍🏫
+          <div class="prof-online"></div>
+        </div>
+        <div class="prof-name">د. علي عباس</div>
+        <div class="prof-specialty">قواعد البيانات وأنظمة المعلومات</div>
+        <div class="prof-stats">
+          <div class="ps-item"><div class="ps-num">9+</div><div class="ps-label">سنوات خبرة</div></div>
+          <div class="ps-item"><div class="ps-num">11</div><div class="ps-label">بحث منشور</div></div>
+          <div class="ps-item"><div class="ps-num">130</div><div class="ps-label">طالب</div></div>
+        </div>
+        <div class="prof-socials">
+          <div class="prof-social-btn" title="SQL">🗄️</div>
+          <div class="prof-social-btn" title="Oracle">🔵</div>
+          <div class="prof-social-btn" title="NoSQL">📦</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     STUDENTS
+====================================================== -->
+<section class="students-section" id="students">
+  <div class="wrap">
+    <div class="students-header">
+      <div>
+        <div class="section-label">دفعة 2025</div>
+        <h2 class="section-title">طلبة التخرج</h2>
+        <p class="section-desc">مستقبل التقنية في ذي قار — دفعة 2024/2025</p>
+      </div>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="ابحث عن طالب..." id="studentSearch" oninput="filterStudents()">
+      </div>
+    </div>
+
+    <div class="students-grid" id="studentsGrid">
+
+      <div class="student-card reveal" data-name="إبراهيم عماد">
+        <div class="student-rank">01</div>
+        <div class="student-avatar">
+          👨‍💻
+          <div class="student-active online"></div>
+        </div>
+        <div class="student-name">إبراهيم عماد</div>
+        <div class="student-id">CS-2025-001</div>
+        <div class="student-badges">
+          <span class="s-badge grad">متخرج</span>
+          <span class="s-badge project">مشروع ويب</span>
+        </div>
+      </div>
+
+      <div class="student-card reveal" data-name="مرتضى شهيد" style="transition-delay:.05s">
+        <div class="student-rank">02</div>
+        <div class="student-avatar">
+          👨‍🎓
+          <div class="student-active online"></div>
+        </div>
+        <div class="student-name">مرتضى شهيد</div>
+        <div class="student-id">CS-2025-002</div>
+        <div class="student-badges">
+          <span class="s-badge grad">متخرج</span>
+          <span class="s-badge active">نشط</span>
+        </div>
+      </div>
+
+      <div class="student-card reveal" data-name="محمد يعقوب" style="transition-delay:.1s">
+        <div class="student-rank">03</div>
+        <div class="student-avatar">
+          👨‍💻
+          <div class="student-active online"></div>
+        </div>
+        <div class="student-name">محمد يعقوب</div>
+        <div class="student-id">CS-2025-003</div>
+        <div class="student-badges">
+          <span class="s-badge grad">متخرج</span>
+          <span class="s-badge active">نشط</span>
+        </div>
+      </div>
+
+      <div class="student-card reveal" data-name="مصطفى جبر" style="transition-delay:.15s">
+        <div class="student-rank">04</div>
+        <div class="student-avatar">
+          👨‍💻
+          <div class="student-active online"></div>
+        </div>
+        <div class="student-name">مصطفى جبر</div>
+        <div class="student-id">CS-2025-004</div>
+        <div class="student-badges">
+          <span class="s-badge grad">متخرج</span>
+          <span class="s-badge project">مشروع ويب</span>
+        </div>
+      </div>
+
+      <div class="student-card reveal" data-name="محمد عبود" style="transition-delay:.2s">
+        <div class="student-rank">05</div>
+        <div class="student-avatar">
+          👨‍🎓
+          <div class="student-active offline"></div>
+        </div>
+        <div class="student-name">محمد عبود</div>
+        <div class="student-id">CS-2025-005</div>
+        <div class="student-badges">
+          <span class="s-badge grad">متخرج</span>
+          <span class="s-badge active">نشط</span>
+        </div>
+      </div>
+
+      <div class="student-card reveal" data-name="علي محمد لطفي" style="transition-delay:.25s">
+        <div class="student-rank">06</div>
+        <div class="student-avatar">
+          👨‍💻
+          <div class="student-active online"></div>
+        </div>
+        <div class="student-name">علي محمد لطفي</div>
+        <div class="student-id">CS-2025-006</div>
+        <div class="student-badges">
+          <span class="s-badge grad">متخرج</span>
+          <span class="s-badge active">نشط</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     COURSES
+====================================================== -->
+<section class="courses-section" id="courses">
+  <div class="wrap">
+    <div class="section-label">المنهج الدراسي</div>
+    <h2 class="section-title">المواد الدراسية</h2>
+    <p class="section-desc">برنامج دراسي شامل يُغطي أحدث التخصصات في علم الحاسوب</p>
+
+    <div class="courses-tabs">
+      <button class="tab-btn active" onclick="filterCourses('all',this)">جميع المواد</button>
+      <button class="tab-btn" onclick="filterCourses('prog',this)">برمجة</button>
+      <button class="tab-btn" onclick="filterCourses('net',this)">شبكات</button>
+      <button class="tab-btn" onclick="filterCourses('db',this)">قواعد بيانات</button>
+      <button class="tab-btn" onclick="filterCourses('ai',this)">ذكاء اصطناعي</button>
+      <button class="tab-btn" onclick="filterCourses('web',this)">ويب</button>
+    </div>
+
+    <div class="courses-grid" id="coursesGrid">
+
+      <div class="course-card reveal" data-cat="prog">
+        <div class="course-icon-box bg-blue">💡</div>
+        <div class="course-info">
+          <h4>مقدمة في البرمجة — C++</h4>
+          <p>أسس البرمجة، المنطق الحسابي، الهياكل البرمجية، الدوال والمصفوفات</p>
+          <div class="course-meta"><span class="c-tag">المرحلة الأولى</span><span class="c-tag">C++</span></div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-cat="db" style="transition-delay:.05s">
+        <div class="course-icon-box bg-gold">🗄️</div>
+        <div class="course-info">
+          <h4>قواعد البيانات</h4>
+          <p>SQL، تصميم قواعد البيانات العلائقية، MySQL، ERD، التحسين والأداء</p>
+          <div class="course-meta"><span class="c-tag">المرحلة الثانية</span><span class="c-tag">SQL</span></div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-cat="net" style="transition-delay:.1s">
+        <div class="course-icon-box bg-cyan">🔗</div>
+        <div class="course-info">
+          <h4>شبكات الحاسوب</h4>
+          <p>بروتوكولات الإنترنت، TCP/IP، توجيه الشبكات، جدران الحماية والأمن</p>
+          <div class="course-meta"><span class="c-tag">المرحلة الثانية</span><span class="c-tag">Networking</span></div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-cat="web" style="transition-delay:.15s">
+        <div class="course-icon-box bg-green">🌐</div>
+        <div class="course-info">
+          <h4>تطوير الويب</h4>
+          <p>HTML5، CSS3، JavaScript، PHP، Bootstrap، تطوير تطبيقات متجاوبة</p>
+          <div class="course-meta"><span class="c-tag">المرحلة الثالثة</span><span class="c-tag">HTML/CSS/JS</span></div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-cat="ai" style="transition-delay:.2s">
+        <div class="course-icon-box bg-blue">🤖</div>
+        <div class="course-info">
+          <h4>الذكاء الاصطناعي</h4>
+          <p>مبادئ AI، خوارزميات البحث، التعلم الآلي، معالجة اللغة الطبيعية</p>
+          <div class="course-meta"><span class="c-tag">المرحلة الرابعة</span><span class="c-tag">Python</span></div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-cat="prog" style="transition-delay:.25s">
+        <div class="course-icon-box bg-red">🏗️</div>
+        <div class="course-info">
+          <h4>هندسة البرمجيات</h4>
+          <p>دورة حياة البرمجيات، SDLC، Agile، UML، إدارة المشاريع التقنية</p>
+          <div class="course-meta"><span class="c-tag">المرحلة الثالثة</span><span class="c-tag">UML/Agile</span></div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-cat="net" style="transition-delay:.3s">
+        <div class="course-icon-box bg-cyan">🔒</div>
+        <div class="course-info">
+          <h4>أمن المعلومات</h4>
+          <p>التشفير، الأمن السيبراني، اختبار الاختراق الأخلاقي، حماية البيانات</p>
+          <div class="course-meta"><span class="c-tag">المرحلة الرابعة</span><span class="c-tag">Cybersecurity</span></div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-cat="prog" style="transition-delay:.35s">
+        <div class="course-icon-box bg-gold">📱</div>
+        <div class="course-info">
+          <h4>تطوير تطبيقات الجوال</h4>
+          <p>مبادئ تطوير Android، واجهات المستخدم للجوال، Flutter الأساسيات</p>
+          <div class="course-meta"><span class="c-tag">المرحلة الرابعة</span><span class="c-tag">Android</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     PROJECTS
+====================================================== -->
+<section class="projects-section" id="projects">
+  <div class="wrap">
+    <div class="section-label">أعمال الطلبة</div>
+    <h2 class="section-title">مشاريع التخرج</h2>
+    <p class="section-desc">مشاريع حقيقية تُبرز إبداع وكفاءة طلبة قسم تقنيات الحاسوب</p>
+
+    <div class="projects-grid">
+
+      <!-- المشروع الرئيسي -->
+      <div class="project-card reveal" style="border-color:rgba(0,212,255,0.3)">
+        <div class="project-cover" style="background:linear-gradient(135deg,#0d1528,#1e3a5e,#0a2540)">
+          🏛️
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="p-tag web">ويب</span>
+            <span class="p-tag db">قاعدة بيانات</span>
+          </div>
+          <h4>موقع جامعة الإمام جعفر الصادق (ع)</h4>
+          <p>موقع مؤسسي احترافي متكامل يُعرّف بالجامعة وأقسامها السبعة، يشمل نظام أخبار ديناميكي وخريطة تفاعلية وفيديوهات تعريفية وصفحة قبول إلكترونية. HTML5 + CSS3 + JS + PHP + MySQL.</p>
+        </div>
+        <div class="project-footer">
+          <span class="project-students">👥 إبراهيم عماد & مصطفى جبر | إشراف: د. زياد خلف</span>
+          <a href="university-website.html" class="project-link">عرض المشروع →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:.1s">
+        <div class="project-cover" style="background:linear-gradient(135deg,#0a2010,#1a4a20,#0d3015)">
+          🛒
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="p-tag web">ويب</span>
+            <span class="p-tag db">قاعدة بيانات</span>
+          </div>
+          <h4>نظام إدارة المتجر الإلكتروني</h4>
+          <p>منصة تجارة إلكترونية كاملة مع سلة المشتريات، إدارة المنتجات، نظام المستخدمين وبوابة الدفع.</p>
+        </div>
+        <div class="project-footer">
+          <span class="project-students">👤 محمد يعقوب</span>
+          <a href="#" class="project-link">تفاصيل →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:.2s">
+        <div class="project-cover" style="background:linear-gradient(135deg,#1a1000,#3a2a00,#201500)">
+          📊
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="p-tag ai">ذكاء اصطناعي</span>
+            <span class="p-tag db">بيانات</span>
+          </div>
+          <h4>نظام تحليل البيانات الأكاديمية</h4>
+          <p>تطبيق لتحليل أداء الطلبة وعرضه بمخططات تفاعلية، يساعد الإدارة في اتخاذ القرارات.</p>
+        </div>
+        <div class="project-footer">
+          <span class="project-students">👤 علي محمد لطفي</span>
+          <a href="#" class="project-link">تفاصيل →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:.3s">
+        <div class="project-cover" style="background:linear-gradient(135deg,#100a1a,#2a1540,#1a0d30)">
+          📱
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="p-tag mobile">جوال</span>
+            <span class="p-tag web">ويب</span>
+          </div>
+          <h4>تطبيق إدارة مهام الطلبة</h4>
+          <p>تطبيق جوال لتنظيم جدول الطالب ومتابعة المواعيد والواجبات مع إشعارات تذكيرية.</p>
+        </div>
+        <div class="project-footer">
+          <span class="project-students">👤 مرتضى شهيد</span>
+          <a href="#" class="project-link">تفاصيل →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:.4s">
+        <div class="project-cover" style="background:linear-gradient(135deg,#001a10,#003a20,#001510)">
+          🔐
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="p-tag ai">أمن</span>
+            <span class="p-tag web">شبكات</span>
+          </div>
+          <h4>نظام المصادقة الآمنة</h4>
+          <p>نظام تسجيل دخول متعدد العوامل (2FA) مع تشفير متقدم وحماية من هجمات الاختراق الشائعة.</p>
+        </div>
+        <div class="project-footer">
+          <span class="project-students">👤 محمد عبود</span>
+          <a href="#" class="project-link">تفاصيل →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand" style="text-decoration:none;margin-bottom:0">
+          <div class="brand-logo" style="width:44px;height:44px;font-size:18px">💻</div>
+          <div class="brand-text">
+            <h1 style="font-size:14px">قسم تقنيات الحاسوب</h1>
+            <p style="font-size:11px;color:var(--cyan)">جامعة الإمام جعفر الصادق (ع) — ذي قار</p>
+          </div>
+        </div>
+        <p style="margin-top:16px">قسم أكاديمي متخصص يُخرّج مهندسي ومبرمجي المستقبل، ملتزم بأعلى معايير الجودة والتميز الأكاديمي.</p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/share/1BVYZKMUDj/" target="_blank" rel="noopener" class="fsoc">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/alsadiq_thiqaruniversity?igsh=M3pqMGM3Ymh1Mjg0" target="_blank" rel="noopener" class="fsoc">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="university-website.html" class="fsoc">🏛️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="#about">عن القسم</a></li>
+          <li><a href="#head">رئيس القسم</a></li>
+          <li><a href="#professors">أساتذة القسم</a></li>
+          <li><a href="#students">طلبة التخرج</a></li>
+          <li><a href="#courses">المواد الدراسية</a></li>
+          <li><a href="#projects">مشاريع التخرج</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>التواصل</h4>
+        <ul>
+          <li><a href="#">📞 07821777661</a></li>
+          <li><a href="#">✉ cs@sadiq.edu.iq</a></li>
+          <li><a href="#">📍 الناصرية — السديناوية</a></li>
+          <li><a href="university-website.html">🌐 الموقع الرئيسي</a></li>
+          <li><a href="registration.html">📋 التسجيل والقبول</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 <span>قسم تقنيات الحاسوب</span> — جامعة الإمام جعفر الصادق (ع) | فرع ذي قار<br>
+      <span style="font-size:11px;color:var(--muted);margin-top:4px;display:block">
+        صُمِّمت هذه الصفحة بواسطة الطالبَين إبراهيم عماد صادق & مصطفى جبر حسين | إشراف: د. زياد خلف
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+<script>
+// ===== PARTICLES =====
+(function() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      animation-duration: ${6 + Math.random()*14}s;
+      animation-delay: ${Math.random()*10}s;
+      width: ${1 + Math.random()*2}px;
+      height: ${1 + Math.random()*2}px;
+      opacity: ${0.2 + Math.random()*0.4};
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ===== COUNTER ANIMATION =====
+const counters = document.querySelectorAll('[data-target]');
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = +el.dataset.target;
+      let cur = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        cur += step;
+        if (cur >= target) { cur = target; clearInterval(timer); }
+        el.textContent = Math.floor(cur) + (target > 10 ? '+' : '');
+      }, 30);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObserver.observe(c));
+
+// ===== SCROLL REVEAL =====
+const reveals = document.querySelectorAll('.reveal, .reveal-left');
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+reveals.forEach(el => revealObserver.observe(el));
+
+// ===== ACTIVE NAV =====
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav ul a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// ===== STUDENT SEARCH =====
+function filterStudents() {
+  const q = document.getElementById('studentSearch').value.toLowerCase();
+  document.querySelectorAll('#studentsGrid .student-card').forEach(card => {
+    const name = card.dataset.name.toLowerCase();
+    card.style.display = name.includes(q) ? '' : 'none';
+  });
+}
+
+// ===== COURSE FILTER =====
+function filterCourses(cat, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#coursesGrid .course-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
